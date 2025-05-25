@@ -4,9 +4,11 @@
     <div class="container-fluid">
 
         <!-- Page Heading -->
-        <h1 class="h3 mb-2 text-gray-800">Kelola Komoditas Pangan</h1>
-        <a href="{{ route('komoditas.create') }}" class="btn btn-primary mb-3">Buat Data Komoditas</a>
-
+        <div class="d-sm-flex align-items-center justify-content-between mb-4">
+            <h1 class="h3 mb-0 text-gray-800">Kelola Komoditas Pangan</h1>
+            <a href="{{ route('komoditas.create') }}" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i
+                    class="fas fa-download fa-sm text-white-50"></i> Tambah Data Komoditas</a>
+        </div>
         <!-- DataTales Example -->
         <div class="card shadow mb-4">
             <div class="card-header py-3">
@@ -35,9 +37,9 @@
                                     <td>{{ $komoditas->jumlah_komoditas }} {{ $komoditas->nama_komoditas }}</td>
                                     <td>{{ $komoditas->tempat_survey }}</td>
                                     <td>{{ $komoditas->tgl_pelaksanaan }}</td>
-                                    <td>
-                                        <button type="button" class="btn btn-success" data-toggle="modal"
-                                            data-target="#staticBackdrop">
+                                    <td class="d-flex">
+                                        <button type="button" class="btn btn-success mr-1" data-toggle="modal"
+                                            data-target="#editKomoditasModal{{ $komoditas->id }}">
                                             Edit
                                         </button>
                                         <form action="{{ route('komoditas.destroy', $komoditas->id) }}" method="POST">
@@ -47,63 +49,74 @@
                                         </form>
                                     </td>
                                 </tr>
+
+                                <!-- Modal -->
+                                <div class="modal fade" id="editKomoditasModal{{ $komoditas->id }}" data-backdrop="static"
+                                    data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel"
+                                    aria-hidden="true">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title" id="staticBackdropLabel">Edit Data Komoditas</h5>
+                                                <button type="button" class="close" data-dismiss="modal"
+                                                    aria-label="Close">
+                                                    <span aria-hidden="true">&times;</span>
+                                                </button>
+                                            </div>
+                                            <div class="modal-body">
+                                                <form action="{{ route('komoditas.update', $komoditas->id) }}"
+                                                    method="POST">
+                                                    @csrf
+                                                    @method('PUT')
+                                                    <div class="mb-3">
+                                                        <label for="nama_komoditas" class="form-label">Nama
+                                                            Komoditas</label>
+                                                        <input type="text" class="form-control" id="nama_komoditas"
+                                                            placeholder="Nama Komoditas" name="nama_komoditas"
+                                                            value="{{ $komoditas->nama_komoditas }}">
+                                                    </div>
+                                                    <div class="mb-3">
+                                                        <label for="harga_komoditas" class="form-label">Harga
+                                                            Komoditas</label>
+                                                        <input type="number" class="form-control" id="harga_komoditas"
+                                                            placeholder="Harga Komoditas" name="harga_komoditas"
+                                                            value="{{ $komoditas->harga_komoditas }}">
+                                                    </div>
+                                                    <div class="mb-3">
+                                                        <label for="jumlah_komoditas" class="form-label">Jumlah Komoditas
+                                                            Tersedia</label>
+                                                        <input type="number" class="form-control" id="jumlah_komoditas"
+                                                            placeholder="Jumlah Komoditas Tersedia" name="jumlah_komoditas"
+                                                            value="{{ $komoditas->jumlah_komoditas }}">
+                                                    </div>
+                                                    <div class="mb-3">
+                                                        <label for="tempat_survey" class="form-label">Tempat Survey
+                                                            Komoditas</label>
+                                                        <input type="text" class="form-control" id="tempat_survey"
+                                                            placeholder="Tempat Survey Komoditas" name="tempat_survey"
+                                                            value="{{ $komoditas->tempat_survey }}">
+                                                    </div>
+                                                    <div class="mb-3">
+                                                        <label for="tgl_pelaksanaan" class="form-label">Tanggal
+                                                            Pelaksanaan</label>
+                                                        <input type="date" class="form-control" id="tgl_pelaksanaan"
+                                                            placeholder="Tanggal Pelaksanaan" name="tgl_pelaksanaan"
+                                                            value="{{ $komoditas->tgl_pelaksanaan }}">
+                                                    </div>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-danger"
+                                                    data-dismiss="modal">Batal</button>
+                                                <button type="submit" class="btn btn-success">Update Data</button>
+                                            </div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
                             @endforeach
                         </tbody>
                     </table>
                 </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Modal -->
-    <div class="modal fade" id="staticBackdrop" data-backdrop="static" data-keyboard="false" tabindex="-1"
-        aria-labelledby="staticBackdropLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="staticBackdropLabel">Edit Data Komoditas</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <form action="{{ route('komoditas.update', $komoditas->id) }}" method="POST">
-                        @csrf
-                        @method('PUT')
-                        <div class="mb-3">
-                            <label for="nama_komoditas" class="form-label">Nama Komoditas</label>
-                            <input type="text" class="form-control" id="nama_komoditas" placeholder="Nama Komoditas"
-                                name="nama_komoditas" value="{{ $komoditas->nama_komoditas }}">
-                        </div>
-                        <div class="mb-3">
-                            <label for="harga_komoditas" class="form-label">Harga Komoditas</label>
-                            <input type="number" class="form-control" id="harga_komoditas" placeholder="Harga Komoditas"
-                                name="harga_komoditas" value="{{ $komoditas->harga_komoditas }}">
-                        </div>
-                        <div class="mb-3">
-                            <label for="jumlah_komoditas" class="form-label">Jumlah Komoditas Tersedia</label>
-                            <input type="number" class="form-control" id="jumlah_komoditas"
-                                placeholder="Jumlah Komoditas Tersedia" name="jumlah_komoditas"
-                                value="{{ $komoditas->jumlah_komoditas }}">
-                        </div>
-                        <div class="mb-3">
-                            <label for="tempat_survey" class="form-label">Tempat Survey Komoditas</label>
-                            <input type="text" class="form-control" id="tempat_survey"
-                                placeholder="Tempat Survey Komoditas" name="tempat_survey"
-                                value="{{ $komoditas->tempat_survey }}">
-                        </div>
-                        <div class="mb-3">
-                            <label for="tgl_pelaksanaan" class="form-label">Tanggal Pelaksanaan</label>
-                            <input type="date" class="form-control" id="tgl_pelaksanaan"
-                                placeholder="Tanggal Pelaksanaan" name="tgl_pelaksanaan"
-                                value="{{ $komoditas->tgl_pelaksanaan }}">
-                        </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-danger" data-dismiss="modal">Batal</button>
-                    <button type="submit" class="btn btn-success">Update Data</button>
-                </div>
-                </form>
             </div>
         </div>
     </div>
