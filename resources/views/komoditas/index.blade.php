@@ -23,8 +23,10 @@
                                 <th>Nama Komoditas</th>
                                 <th>Harga Komoditas</th>
                                 <th>Ketersediaan</th>
+                                <th>Kebutuhan Rumah Tangga</th>
                                 <th>Tempat Survey</th>
                                 <th>Tanggal Pelaksanaan</th>
+                                <th>Minggu Survey Pelaksanaan</th>
                                 <th>OPSI</th>
                             </tr>
                         </thead>
@@ -34,9 +36,11 @@
                                     <td>{{ $loop->iteration }}</td>
                                     <td>{{ $komoditas->nama_komoditas }}</td>
                                     <td>Rp. {{ $komoditas->harga_komoditas }}</td>
-                                    <td>{{ $komoditas->jumlah_komoditas }} {{ $komoditas->nama_komoditas }}</td>
-                                    <td>{{ $komoditas->tempat_survey }}</td>
+                                    <td>{{ $komoditas->jumlah_komoditas }} Ton</td>
+                                    <td>{{ $komoditas->kebutuhan_rumah_tangga }} Ton</td>
+                                    <td>{{ ucwords(str_replace('_', ' ', $komoditas->tempat_survey)) }}</td>
                                     <td>{{ $komoditas->tgl_pelaksanaan }}</td>
+                                    <td>Minggu ke-{{ $komoditas->minggu_dilakukan_survey }}</td>
                                     <td class="d-flex">
                                         <button type="button" class="btn btn-success mr-1" data-toggle="modal"
                                             data-target="#editKomoditasModal{{ $komoditas->id }}">
@@ -90,11 +94,27 @@
                                                             value="{{ $komoditas->jumlah_komoditas }}">
                                                     </div>
                                                     <div class="mb-3">
-                                                        <label for="tempat_survey" class="form-label">Tempat Survey
-                                                            Komoditas</label>
-                                                        <input type="text" class="form-control" id="tempat_survey"
-                                                            placeholder="Tempat Survey Komoditas" name="tempat_survey"
-                                                            value="{{ $komoditas->tempat_survey }}">
+                                                        <label for="kebutuhan_rumah_tangga" class="form-label">Jumlah
+                                                            Kebutuhan Rumah Tangga
+                                                            Tersedia</label>
+                                                        <input type="number" class="form-control"
+                                                            id="kebutuhan_rumah_tangga"
+                                                            placeholder="Jumlah Kebutuhan Rumah Tangga"
+                                                            name="kebutuhan_rumah_tangga"
+                                                            value="{{ $komoditas->kebutuhan_rumah_tangga }}">
+                                                    </div>
+                                                    <div class="input-group mb-3">
+                                                        <div class="input-group-prepend">
+                                                            <label class="input-group-text" for="tempat_survey">
+                                                                Pasar</label>
+                                                        </div>
+                                                        <select class="custom-select" id="tempat_survey"
+                                                            name="tempat_survey">
+                                                            <option value="pasar_kediri" {{ $komoditas->tempat_survey == 'pasar_kediri' ? 'selected' : '' }}>Pasar Kediri</option>
+                                                            <option value="pasar_baturiti" {{ $komoditas->tempat_survey == 'pasar_baturiti' ? 'selected' : '' }}>Pasar Baturiti</option>
+                                                            <option value="pasar_pesiapan" {{ $komoditas->tempat_survey == 'pasar_pesiapan' ? 'selected' : '' }}>Pasar Pesiapan</option>
+                                                            <option value="pasar_tabanan" {{ $komoditas->tempat_survey == 'pasar_tabanan' ? 'selected' : '' }}>Pasar Tabanan</option>
+                                                        </select>
                                                     </div>
                                                     <div class="mb-3">
                                                         <label for="tgl_pelaksanaan" class="form-label">Tanggal
@@ -102,6 +122,15 @@
                                                         <input type="date" class="form-control" id="tgl_pelaksanaan"
                                                             placeholder="Tanggal Pelaksanaan" name="tgl_pelaksanaan"
                                                             value="{{ $komoditas->tgl_pelaksanaan }}">
+                                                    </div>
+                                                    <div class="mb-3">
+                                                        <label for="minggu_dilakukan_survey" class="form-label">Minggu
+                                                            Survey Dilaksanakan</label>
+                                                        <input type="number" class="form-control"
+                                                            id="minggu_dilakukan_survey"
+                                                            placeholder="Minggu Survey Dilaksanakan"
+                                                            name="minggu_dilakukan_survey"
+                                                            value="{{ $komoditas->minggu_dilakukan_survey }}">
                                                     </div>
                                             </div>
                                             <div class="modal-footer">
@@ -113,6 +142,7 @@
                                         </div>
                                     </div>
                                 </div>
+
                             @endforeach
                         </tbody>
                     </table>

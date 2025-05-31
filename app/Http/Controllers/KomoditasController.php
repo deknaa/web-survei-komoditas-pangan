@@ -33,8 +33,10 @@ class KomoditasController extends Controller
             'nama_komoditas' => 'required|string',
             'harga_komoditas' => 'required|numeric',
             'jumlah_komoditas' => 'required|numeric',
-            'tempat_survey' => 'required|string',
+            'kebutuhan_rumah_tangga' => 'required|numeric',
+            'tempat_survey' => 'required|string|in:pasar_kediri,pasar_baturiti,pasar_pesiapan,pasar_tabanan',
             'tgl_pelaksanaan' => 'required|date',
+            'minggu_dilakukan_survey' => 'required|numeric',
         ]);
 
         Komoditas::create($komoditas);

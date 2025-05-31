@@ -10,7 +10,9 @@ class Komoditas extends Model
         'nama_komoditas',
         'harga_komoditas',
         'jumlah_komoditas',
+        'kebutuhan_rumah_tangga',
         'tempat_survey',
         'tgl_pelaksanaan',
+        'minggu_dilakukan_survey',
     ];
 }

@@ -16,8 +16,10 @@ return new class extends Migration
             $table->string('nama_komoditas');
             $table->string('harga_komoditas');
             $table->integer('jumlah_komoditas');
-            $table->string('tempat_survey');
+            $table->integer('kebutuhan_rumah_tangga');
+            $table->enum('tempat_survey', ['pasar_kediri', 'pasar_baturiti', 'pasar_pesiapan', 'pasar_tabanan']);
             $table->date('tgl_pelaksanaan');
+            $table->integer('minggu_dilakukan_survey');
             $table->timestamps();
         });
     }
