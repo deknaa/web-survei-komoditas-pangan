@@ -1,8 +1,10 @@
 <?php
 
-use App\Http\Controllers\KomoditasController;
-use App\Http\Controllers\ProfileController;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\KomoditasController;
+use App\Http\Controllers\PetugasController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -25,9 +27,7 @@ Route::middleware(['auth', 'eksekutifRole'])->prefix('eksekutif')->group(functio
 });
 
 Route::middleware(['auth', 'petugasRole'])->prefix('petugas')->group(function () {
-    Route::get('/dashboard', function () {
-        return view('dashboard.petugas.dashboard_petugas');
-    })->name('dashboard');
+    Route::get('/dashboard', [PetugasController::class, 'index'])->name('dashboard');
 
     Route::resource('komoditas', KomoditasController::class);
 });
