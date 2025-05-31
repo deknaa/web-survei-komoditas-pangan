@@ -46,10 +46,11 @@
                                             data-target="#editKomoditasModal{{ $komoditas->id }}">
                                             Edit
                                         </button>
-                                        <form action="{{ route('komoditas.destroy', $komoditas->id) }}" method="POST">
+                                        <form id="form-hapus-{{ $komoditas->id }}" action="{{ route('komoditas.destroy', $komoditas->id) }}" method="POST">
                                             @csrf
                                             @method('DELETE')
-                                            <button class="btn btn-danger">Hapus</button>
+                                            <button type="button" class="btn btn-danger btn-hapus"
+                                                data-id="{{ $komoditas->id }}">Hapus</button>
                                         </form>
                                     </td>
                                 </tr>
@@ -110,10 +111,18 @@
                                                         </div>
                                                         <select class="custom-select" id="tempat_survey"
                                                             name="tempat_survey">
-                                                            <option value="pasar_kediri" {{ $komoditas->tempat_survey == 'pasar_kediri' ? 'selected' : '' }}>Pasar Kediri</option>
-                                                            <option value="pasar_baturiti" {{ $komoditas->tempat_survey == 'pasar_baturiti' ? 'selected' : '' }}>Pasar Baturiti</option>
-                                                            <option value="pasar_pesiapan" {{ $komoditas->tempat_survey == 'pasar_pesiapan' ? 'selected' : '' }}>Pasar Pesiapan</option>
-                                                            <option value="pasar_tabanan" {{ $komoditas->tempat_survey == 'pasar_tabanan' ? 'selected' : '' }}>Pasar Tabanan</option>
+                                                            <option value="pasar_kediri"
+                                                                {{ $komoditas->tempat_survey == 'pasar_kediri' ? 'selected' : '' }}>
+                                                                Pasar Kediri</option>
+                                                            <option value="pasar_baturiti"
+                                                                {{ $komoditas->tempat_survey == 'pasar_baturiti' ? 'selected' : '' }}>
+                                                                Pasar Baturiti</option>
+                                                            <option value="pasar_pesiapan"
+                                                                {{ $komoditas->tempat_survey == 'pasar_pesiapan' ? 'selected' : '' }}>
+                                                                Pasar Pesiapan</option>
+                                                            <option value="pasar_tabanan"
+                                                                {{ $komoditas->tempat_survey == 'pasar_tabanan' ? 'selected' : '' }}>
+                                                                Pasar Tabanan</option>
                                                         </select>
                                                     </div>
                                                     <div class="mb-3">
@@ -142,7 +151,6 @@
                                         </div>
                                     </div>
                                 </div>
-
                             @endforeach
                         </tbody>
                     </table>
@@ -162,5 +170,26 @@
             document.getElementById('edit-id').value = id
             document.getElementById('edit-nama').value = nama
         })
+    </script>
+    <script>
+        document.querySelectorAll('.btn-hapus').forEach(button => {
+            button.addEventListener('click', function() {
+                const id = this.getAttribute('data-id');
+                Swal.fire({
+                    title: 'Yakin ingin menghapus?',
+                    text: "Data yang dihapus tidak dapat dikembalikan!",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#d33',
+                    cancelButtonColor: '#3085d6',
+                    confirmButtonText: 'Ya, hapus!',
+                    cancelButtonText: 'Batal'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        document.getElementById('form-hapus-' + id).submit();
+                    }
+                });
+            });
+        });
     </script>
 @endsection

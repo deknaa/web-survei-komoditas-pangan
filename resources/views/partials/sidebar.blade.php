@@ -14,7 +14,7 @@
      <hr class="sidebar-divider my-0">
 
      <!-- Nav Item - Dashboard -->
-     <li class="nav-item active">
+     <li class="nav-item {{ Route::currentRouteName() === 'dashboard' || Route::currentRouteName() === 'dashboard.eksekutif' ? 'active' : '' }}">
          <a class="nav-link"
              href="{{ Auth::user()->role === 'eksekutif' ? route('dashboard.eksekutif') : route('dashboard') }}">
              <i class="fas fa-fw fa-tachometer-alt"></i>
@@ -29,7 +29,7 @@
          Komoditas
      </div>
 
-     <li class="nav-item">
+     <li class="nav-item {{ Route::currentRouteName() === 'komoditas.index' ? 'active' : '' }}">
          <a class="nav-link" href="{{ route('komoditas.index') }}">
              <i class="fas fa-fw fa-box"></i>
              <span>Kelola Komoditas</span></a>
