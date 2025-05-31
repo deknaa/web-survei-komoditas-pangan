@@ -20,6 +20,7 @@ return new class extends Migration
             $table->enum('tempat_survey', ['pasar_kediri', 'pasar_baturiti', 'pasar_pesiapan', 'pasar_tabanan']);
             $table->date('tgl_pelaksanaan');
             $table->integer('minggu_dilakukan_survey');
+            $table->enum('status_verifikasi', ['belum_diverifikasi', 'sudah_diverifikasi'])->default('belum_diverifikasi');
             $table->timestamps();
         });
     }

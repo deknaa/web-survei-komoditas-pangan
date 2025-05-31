@@ -14,5 +14,6 @@ class Komoditas extends Model
         'tempat_survey',
         'tgl_pelaksanaan',
         'minggu_dilakukan_survey',
+        'status_verifikasi',
     ];
 }
