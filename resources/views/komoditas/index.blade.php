@@ -27,6 +27,7 @@
                                 <th>Tempat Survey</th>
                                 <th>Tanggal Pelaksanaan</th>
                                 <th>Minggu Survey Pelaksanaan</th>
+                                <th>Status Verifikasi</th>
                                 <th>OPSI</th>
                             </tr>
                         </thead>
@@ -41,6 +42,7 @@
                                     <td>{{ ucwords(str_replace('_', ' ', $komoditas->tempat_survey)) }}</td>
                                     <td>{{ $komoditas->tgl_pelaksanaan }}</td>
                                     <td>Minggu ke-{{ $komoditas->minggu_dilakukan_survey }}</td>
+                                    <td>{{ $komoditas->status_verifikasi == 'sudah_diverifikasi' ? 'Terverifikasi' : 'Belum Terverifikasi' }}</td>
                                     <td class="d-flex">
                                         <button type="button" class="btn btn-success mr-1" data-toggle="modal"
                                             data-target="#editKomoditasModal{{ $komoditas->id }}">
