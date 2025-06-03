@@ -14,7 +14,8 @@
      <hr class="sidebar-divider my-0">
 
      <!-- Nav Item - Dashboard -->
-     <li class="nav-item {{ Route::currentRouteName() === 'dashboard' || Route::currentRouteName() === 'dashboard.eksekutif' ? 'active' : '' }}">
+     <li
+         class="nav-item {{ Route::currentRouteName() === 'dashboard' || Route::currentRouteName() === 'dashboard.eksekutif' ? 'active' : '' }}">
          <a class="nav-link"
              href="{{ Auth::user()->role === 'eksekutif' ? route('dashboard.eksekutif') : route('dashboard') }}">
              <i class="fas fa-fw fa-tachometer-alt"></i>
@@ -48,6 +49,30 @@
          <a class="nav-link" href="charts.html">
              <i class="fas fa-fw fa-chart-area"></i>
              <span>Neraca Komoditas</span></a>
+     </li>
+
+     <!-- Divider -->
+     <hr class="sidebar-divider">
+
+     <!-- Heading -->
+     <div class="sidebar-heading">
+         Opsi
+     </div>
+
+     <!-- Nav Item - Charts -->
+     {{-- <li class="nav-item">
+         <a class="nav-link" href="#" >
+             <i class="fas fa-fw fa-door-open"></i>
+             <span>Logout</span></a>
+     </li> --}}
+     <li class="nav-item">
+         <form method="POST" action="{{ route('logout') }}">
+             @csrf
+             <a href="{{ route('logout') }}" class="nav-link" onclick="event.preventDefault(); this.closest('form').submit();">
+                 <i class="fas fa-sign-out-alt fa-sm fa-fw "></i>
+                 Logout
+             </a>
+         </form>
      </li>
 
      {{-- <!-- Nav Item - Tables -->
