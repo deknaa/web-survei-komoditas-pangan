@@ -29,7 +29,11 @@ Route::middleware(['auth', 'eksekutifRole'])->prefix('eksekutif')->group(functio
 Route::middleware(['auth', 'petugasRole'])->prefix('petugas')->group(function () {
     Route::get('/dashboard', [PetugasController::class, 'index'])->name('dashboard');
 
+    // Komoditas
     Route::resource('komoditas', KomoditasController::class);
+    Route::get('/api/komoditas-list', [PetugasController::class, 'getKomoditasList']);
+    Route::get('/api/harga-komoditas', [PetugasController::class, 'getHargaKomoditas']);
+    Route::post('/api/neraca-pangan', [PetugasController::class, 'getData'])->name('pangan.data');
 });
 
-require __DIR__.'/auth.php';
+require __DIR__ . '/auth.php';

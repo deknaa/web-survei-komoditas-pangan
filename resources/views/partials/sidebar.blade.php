@@ -60,11 +60,6 @@
      </div>
 
      <!-- Nav Item - Charts -->
-     {{-- <li class="nav-item">
-         <a class="nav-link" href="#" >
-             <i class="fas fa-fw fa-door-open"></i>
-             <span>Logout</span></a>
-     </li> --}}
      <li class="nav-item">
          <form method="POST" action="{{ route('logout') }}">
              @csrf

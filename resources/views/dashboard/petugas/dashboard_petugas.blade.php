@@ -5,21 +5,21 @@
 
         <div class="alert alert-success" role="alert">
             Halo, Selamat Datang.
-                <b>{{ $user->name }}</b> 👋
+            <b>{{ $user->name }}</b> 👋
         </div>
 
         <!-- Content Row -->
         <div class="row">
 
             <!-- Earnings (Monthly) Card Example -->
-            <div class="col-xl-3 col-md-6 mb-4">
+            <div class="col-xl-4 col-md-6 mb-4">
                 <div class="card border-left-primary shadow h-100 py-2">
                     <div class="card-body">
                         <div class="row no-gutters align-items-center">
                             <div class="col mr-2">
                                 <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
                                     Ketersediaan Pangan</div>
-                                <div class="h5 mb-0 font-weight-bold text-gray-800">{{ $ketersediaanPangan }}</div>
+                                <div class="h5 mb-0 font-weight-bold text-gray-800">{{ $ketersediaanPangan }} Ton</div>
                             </div>
                             <div class="col-auto">
                                 <i class="fas fa-boxes fa-2x text-gray-300"></i>
@@ -30,14 +30,14 @@
             </div>
 
             <!-- Earnings (Monthly) Card Example -->
-            <div class="col-xl-3 col-md-6 mb-4">
+            <div class="col-xl-4 col-md-6 mb-4">
                 <div class="card border-left-success shaww h-100 py-2">
                     <div class="card-body">
                         <div class="row no-gutters align-items-center">
                             <div class="col mr-2">
                                 <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
                                     Kebutuhan Pangan</div>
-                                <div class="h5 mb-0 font-weight-bold text-gray-800">{{ $kebutuhanPangan }}</div>
+                                <div class="h5 mb-0 font-weight-bold text-gray-800">{{ $kebutuhanPangan }} Ton</div>
                             </div>
                             <div class="col-auto">
                                 <i class="fas fa-chart-line fa-2x text-gray-300"></i>
@@ -47,43 +47,15 @@
                 </div>
             </div>
 
-            <!-- Earnings (Monthly) Card Example -->
-            <div class="col-xl-3 col-md-6 mb-4">
-                <div class="card border-left-info shadow h-100 py-2">
-                    <div class="card-body">
-                        <div class="row no-gutters align-items-center">
-                            <div class="col mr-2">
-                                <div class="text-xs font-weight-bold text-info text-uppercase mb-1">Perkembangan Pangan
-                                </div>
-                                <div class="row no-gutters align-items-center">
-                                    <div class="col-auto">
-                                        <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800">50%</div>
-                                    </div>
-                                    <div class="col">
-                                        <div class="progress progress-sm mr-2">
-                                            <div class="progress-bar bg-info" role="progressbar" style="width: 50%"
-                                                aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-auto">
-                                <i class="fas fa-clipboard-list fa-2x text-gray-300"></i>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
             <!-- Pending Requests Card Example -->
-            <div class="col-xl-3 col-md-6 mb-4">
+            <div class="col-xl-4 col-md-6 mb-4">
                 <div class="card border-left-warning shadow h-100 py-2">
                     <div class="card-body">
                         <div class="row no-gutters align-items-center">
                             <div class="col mr-2">
                                 <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">
                                     Survey Yang Belum di ACC</div>
-                                <div class="h5 mb-0 font-weight-bold text-gray-800">18</div>
+                                <div class="h5 mb-0 font-weight-bold text-gray-800">{{ $surveyBelumDiAcc }}</div>
                             </div>
                             <div class="col-auto">
                                 <i class="fas fa-comments fa-2x text-gray-300"></i>
@@ -94,233 +66,182 @@
             </div>
         </div>
 
-        <!-- Content Row -->
+        {{-- Chart Harga Komoditas --}}
+        <label>Pasar:</label>
+        <select id="pasar">
+            <option value="">Pilih Pasar</option>
+            @foreach ($daftarPasar as $pasar)
+                <option value="{{ $pasar }}">{{ ucwords(str_replace('_', ' ', $pasar)) }}</option>
+            @endforeach
+        </select>
 
-        <div class="row">
+        <label>Tanggal Mulai:</label>
+        <input type="date" id="tanggal" value="{{ date('Y-m-d') }}">
 
-            <!-- Area Chart -->
-            <div class="col-xl-8 col-lg-7">
-                <div class="card shadow mb-4">
-                    <!-- Card Header - Dropdown -->
-                    <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                        <h6 class="m-0 font-weight-bold text-primary">Earnings Overview</h6>
-                        <div class="dropdown no-arrow">
-                            <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink"
-                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
-                            </a>
-                            <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in"
-                                aria-labelledby="dropdownMenuLink">
-                                <div class="dropdown-header">Dropdown Header:</div>
-                                <a class="dropdown-item" href="#">Action</a>
-                                <a class="dropdown-item" href="#">Another action</a>
-                                <div class="dropdown-divider"></div>
-                                <a class="dropdown-item" href="#">Something else here</a>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- Card Body -->
-                    <div class="card-body">
-                        <div class="chart-area">
-                            <canvas id="myAreaChart"></canvas>
-                        </div>
-                    </div>
-                </div>
+        <label>Nama Komoditas:</label>
+        <select id="komoditas">
+            <option value="">Pilih Komoditas</option>
+        </select>
+
+        <canvas id="chart" style="max-width: 700px; max-height: 400px;"></canvas>
+
+        {{-- Neraca Pangan --}}
+        <h3>Neraca Pangan</h3>
+        <div class="row mb-3">
+            <div class="col">
+                <label>Nama Komoditas</label>
+                <select id="nama_komoditas" class="form-control">
+                    @foreach ($nama_komoditas as $komoditas)
+                        <option value="{{ $komoditas }}">{{ $komoditas }}</option>
+                    @endforeach
+                </select>
             </div>
-
-            <!-- Pie Chart -->
-            <div class="col-xl-4 col-lg-5">
-                <div class="card shadow mb-4">
-                    <!-- Card Header - Dropdown -->
-                    <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                        <h6 class="m-0 font-weight-bold text-primary">Revenue Sources</h6>
-                        <div class="dropdown no-arrow">
-                            <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink"
-                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
-                            </a>
-                            <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in"
-                                aria-labelledby="dropdownMenuLink">
-                                <div class="dropdown-header">Dropdown Header:</div>
-                                <a class="dropdown-item" href="#">Action</a>
-                                <a class="dropdown-item" href="#">Another action</a>
-                                <div class="dropdown-divider"></div>
-                                <a class="dropdown-item" href="#">Something else here</a>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- Card Body -->
-                    <div class="card-body">
-                        <div class="chart-pie pt-4 pb-2">
-                            <canvas id="myPieChart"></canvas>
-                        </div>
-                        <div class="mt-4 text-center small">
-                            <span class="mr-2">
-                                <i class="fas fa-circle text-primary"></i> Direct
-                            </span>
-                            <span class="mr-2">
-                                <i class="fas fa-circle text-success"></i> Social
-                            </span>
-                            <span class="mr-2">
-                                <i class="fas fa-circle text-info"></i> Referral
-                            </span>
-                        </div>
-                    </div>
-                </div>
+            <div class="col">
+                <label>Tahun</label>
+                <select id="tahun" class="form-control">
+                    @for ($y = 2020; $y <= now()->year; $y++)
+                        <option value="{{ $y }}" {{ $y == now()->year ? 'selected' : '' }}>{{ $y }}
+                        </option>
+                    @endfor
+                </select>
+            </div>
+            <div class="col">
+                <label>Bulan</label>
+                <select id="bulan" class="form-control">
+                    @for ($m = 1; $m <= 12; $m++)
+                        <option value="{{ $m }}" {{ $m == now()->month ? 'selected' : '' }}>
+                            {{ \Carbon\Carbon::create()->month($m)->translatedFormat('F') }}
+                        </option>
+                    @endfor
+                </select>
             </div>
         </div>
 
-        <!-- Content Row -->
-        <div class="row">
-
-            <!-- Content Column -->
-            <div class="col-lg-6 mb-4">
-
-                <!-- Project Card Example -->
-                <div class="card shadow mb-4">
-                    <div class="card-header py-3">
-                        <h6 class="m-0 font-weight-bold text-primary">Projects</h6>
-                    </div>
-                    <div class="card-body">
-                        <h4 class="small font-weight-bold">Server Migration <span class="float-right">20%</span>
-                        </h4>
-                        <div class="progress mb-4">
-                            <div class="progress-bar bg-danger" role="progressbar" style="width: 20%" aria-valuenow="20"
-                                aria-valuemin="0" aria-valuemax="100"></div>
-                        </div>
-                        <h4 class="small font-weight-bold">Sales Tracking <span class="float-right">40%</span>
-                        </h4>
-                        <div class="progress mb-4">
-                            <div class="progress-bar bg-warning" role="progressbar" style="width: 40%"
-                                aria-valuenow="40" aria-valuemin="0" aria-valuemax="100"></div>
-                        </div>
-                        <h4 class="small font-weight-bold">Customer Database <span class="float-right">60%</span>
-                        </h4>
-                        <div class="progress mb-4">
-                            <div class="progress-bar" role="progressbar" style="width: 60%" aria-valuenow="60"
-                                aria-valuemin="0" aria-valuemax="100"></div>
-                        </div>
-                        <h4 class="small font-weight-bold">Payout Details <span class="float-right">80%</span>
-                        </h4>
-                        <div class="progress mb-4">
-                            <div class="progress-bar bg-info" role="progressbar" style="width: 80%" aria-valuenow="80"
-                                aria-valuemin="0" aria-valuemax="100"></div>
-                        </div>
-                        <h4 class="small font-weight-bold">Account Setup <span class="float-right">Complete!</span></h4>
-                        <div class="progress">
-                            <div class="progress-bar bg-success" role="progressbar" style="width: 100%"
-                                aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Color System -->
-                <div class="row">
-                    <div class="col-lg-6 mb-4">
-                        <div class="card bg-primary text-white shadow">
-                            <div class="card-body">
-                                Primary
-                                <div class="text-white-50 small">#4e73df</div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-6 mb-4">
-                        <div class="card bg-success text-white shadow">
-                            <div class="card-body">
-                                Success
-                                <div class="text-white-50 small">#1cc88a</div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-6 mb-4">
-                        <div class="card bg-info text-white shadow">
-                            <div class="card-body">
-                                Info
-                                <div class="text-white-50 small">#36b9cc</div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-6 mb-4">
-                        <div class="card bg-warning text-white shadow">
-                            <div class="card-body">
-                                Warning
-                                <div class="text-white-50 small">#f6c23e</div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-6 mb-4">
-                        <div class="card bg-danger text-white shadow">
-                            <div class="card-body">
-                                Danger
-                                <div class="text-white-50 small">#e74a3b</div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-6 mb-4">
-                        <div class="card bg-secondary text-white shadow">
-                            <div class="card-body">
-                                Secondary
-                                <div class="text-white-50 small">#858796</div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-6 mb-4">
-                        <div class="card bg-light text-black shadow">
-                            <div class="card-body">
-                                Light
-                                <div class="text-black-50 small">#f8f9fc</div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-6 mb-4">
-                        <div class="card bg-dark text-white shadow">
-                            <div class="card-body">
-                                Dark
-                                <div class="text-white-50 small">#5a5c69</div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-            </div>
-
-            <div class="col-lg-6 mb-4">
-
-                <!-- Illustrations -->
-                <div class="card shadow mb-4">
-                    <div class="card-header py-3">
-                        <h6 class="m-0 font-weight-bold text-primary">Illustrations</h6>
-                    </div>
-                    <div class="card-body">
-                        <div class="text-center">
-                            <img class="img-fluid px-3 px-sm-4 mt-3 mb-4" style="width: 25rem;"
-                                src="img/undraw_posting_photo.svg" alt="...">
-                        </div>
-                        <p>Add some quality, svg illustrations to your project courtesy of <a target="_blank"
-                                rel="nofollow" href="https://undraw.co/">unDraw</a>, a
-                            constantly updated collection of beautiful svg images that you can use
-                            completely free and without attribution!</p>
-                        <a target="_blank" rel="nofollow" href="https://undraw.co/">Browse Illustrations on
-                            unDraw &rarr;</a>
-                    </div>
-                </div>
-
-                <!-- Approach -->
-                <div class="card shadow mb-4">
-                    <div class="card-header py-3">
-                        <h6 class="m-0 font-weight-bold text-primary">Development Approach</h6>
-                    </div>
-                    <div class="card-body">
-                        <p>SB Admin 2 makes extensive use of Bootstrap 4 utility classes in order to reduce
-                            CSS bloat and poor page performance. Custom CSS classes are used to create
-                            custom components and custom utility classes.</p>
-                        <p class="mb-0">Before working with this theme, you should become familiar with the
-                            Bootstrap framework, especially the utility classes.</p>
-                    </div>
-                </div>
-
-            </div>
-        </div>
-
+        <table class="table table-bordered" id="dataTable">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Tempat Survey</th>
+                    <th>Minggu 1</th>
+                    <th>Minggu 2</th>
+                    <th>Minggu 3</th>
+                    <th>Minggu 4</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td colspan="6" class="text-center">Silakan pilih filter terlebih dahulu</td>
+                </tr>
+            </tbody>
+        </table>
     </div>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        const ctx = document.getElementById('chart').getContext('2d');
+        let chart = new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: [],
+                datasets: []
+            },
+            options: {
+                responsive: true
+            }
+        });
+
+        function fetchKomoditasList() {
+            const pasar = document.getElementById('pasar').value;
+            const tanggal = document.getElementById('tanggal').value;
+
+            if (!pasar || !tanggal) return;
+
+            fetch(`/petugas/api/komoditas-list?pasar=${pasar}&tanggal=${tanggal}`)
+                .then(res => res.json())
+                .then(data => {
+                    const select = document.getElementById('komoditas');
+                    select.innerHTML = '<option value="">Pilih Komoditas</option>';
+                    data.forEach(k => {
+                        const option = document.createElement('option');
+                        option.value = k;
+                        option.textContent = k;
+                        select.appendChild(option);
+                    });
+                });
+        }
+
+        function fetchChartData() {
+            const pasar = document.getElementById('pasar').value;
+            const tanggal = document.getElementById('tanggal').value;
+            const komoditas = document.getElementById('komoditas').value;
+
+            if (!pasar || !tanggal || !komoditas) return;
+
+            fetch(`/petugas/api/harga-komoditas?pasar=${pasar}&tanggal=${tanggal}&komoditas=${komoditas}`)
+                .then(res => res.json())
+                .then(data => {
+                    chart.data.labels = data.labels;
+                    chart.data.datasets = data.datasets;
+                    chart.update();
+                });
+        }
+
+        const debouncedKomoditasList = debounce(fetchKomoditasList, 500);
+        const debouncedChartFetch = debounce(fetchChartData, 500);
+
+        document.getElementById('pasar').addEventListener('change', debouncedKomoditasList);
+        document.getElementById('tanggal').addEventListener('change', debouncedKomoditasList);
+        document.getElementById('komoditas').addEventListener('change', debouncedChartFetch);
+
+        window.addEventListener('DOMContentLoaded', fetchKomoditasList);
+    </script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            function loadData() {
+                let nama_komoditas = document.getElementById('nama_komoditas').value;
+                let tahun = document.getElementById('tahun').value;
+                let bulan = document.getElementById('bulan').value;
+
+                fetch("{{ route('pangan.data') }}", {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'X-CSRF-TOKEN': "{{ csrf_token() }}"
+                        },
+                        body: JSON.stringify({
+                            nama_komoditas: nama_komoditas,
+                            tahun: tahun,
+                            bulan: bulan
+                        })
+                    })
+                    .then(res => res.json())
+                    .then(data => {
+                        let tbody = '';
+                        let i = 1;
+                        for (let pasar in data) {
+                            tbody += `<tr>
+                    <td>${i++}</td>
+                    <td>${pasar.replace('_', ' ').toUpperCase()}</td>
+                    <td>${data[pasar].week1 ?? 0}</td>
+                    <td>${data[pasar].week2 ?? 0}</td>
+                    <td>${data[pasar].week3 ?? 0}</td>
+                    <td>${data[pasar].week4 ?? 0}</td>
+                </tr>`;
+                        }
+                        if (i === 1) {
+                            tbody = `<tr><td colspan="6" class="text-center">Data tidak ditemukan</td></tr>`;
+                        }
+
+                        document.querySelector('#dataTable tbody').innerHTML = tbody;
+                    });
+            }
+
+            // Panggil pertama kali saat halaman dimuat
+            loadData();
+
+            // Jika user mengubah filter, otomatis refresh data
+            ['nama_komoditas', 'tahun', 'bulan'].forEach(id => {
+                document.getElementById(id).addEventListener('change', loadData);
+            });
+        });
+    </script>
 @endsection
