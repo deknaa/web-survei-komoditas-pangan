@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\KomoditasController;
+use App\Http\Controllers\NeracaController;
 use App\Http\Controllers\PetugasController;
 
 Route::get('/', function () {
@@ -34,6 +35,9 @@ Route::middleware(['auth', 'petugasRole'])->prefix('petugas')->group(function ()
     Route::get('/api/komoditas-list', [PetugasController::class, 'getKomoditasList']);
     Route::get('/api/harga-komoditas', [PetugasController::class, 'getHargaKomoditas']);
     Route::post('/api/neraca-pangan', [PetugasController::class, 'getData'])->name('pangan.data');
+
+    Route::get('neraca-pangan', [NeracaController::class, 'index'])->name('neraca-pangan');
+    Route::post('/neraca-pangan/cari', [NeracaController::class, 'search'])->name('komoditas.search');
 });
 
 require __DIR__ . '/auth.php';

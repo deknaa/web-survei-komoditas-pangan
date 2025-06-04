@@ -46,7 +46,7 @@
 
      <!-- Nav Item - Charts -->
      <li class="nav-item">
-         <a class="nav-link" href="charts.html">
+         <a class="nav-link" href="{{ route('neraca-pangan') }}">
              <i class="fas fa-fw fa-chart-area"></i>
              <span>Neraca Komoditas</span></a>
      </li>
@@ -69,13 +69,6 @@
              </a>
          </form>
      </li>
-
-     {{-- <!-- Nav Item - Tables -->
-     <li class="nav-item">
-         <a class="nav-link" href="tables.html">
-             <i class="fas fa-fw fa-table"></i>
-             <span>Tables</span></a>
-     </li> --}}
 
      <!-- Divider -->
      <hr class="sidebar-divider d-none d-md-block">
