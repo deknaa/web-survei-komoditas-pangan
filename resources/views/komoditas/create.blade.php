@@ -9,11 +9,23 @@
 
         <form action="{{ route('komoditas.store') }}" method="POST">
             @csrf
-            <div class="mb-3">
-                <label for="nama_komoditas" class="form-label">Nama Komoditas</label>
-                <input type="text" class="form-control" id="nama_komoditas" placeholder="Nama Komoditas"
-                    name="nama_komoditas" required>
+            <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                    <label class="input-group-text" for="nama_komoditas">Pilih Komoditas</label>
+                </div>
+                <select class="custom-select" id="nama_komoditas" name="nama_komoditas" required>
+                    <option value="" disabled selected>Pilih Komoditas</option>
+                    @foreach ($komoditas as $item)
+                        <option value="{{ $item }}" {{ old('nama_komoditas') == $item ? 'selected' : '' }}>
+                            {{ $item }}
+                        </option>
+                    @endforeach
+                </select>
+                @error('nama_komoditas')
+                    <div class="text-danger">{{ $message }}</div>
+                @enderror
             </div>
+
             <div class="mb-3">
                 <label for="harga_komoditas" class="form-label">Harga Komoditas</label>
 
@@ -49,7 +61,7 @@
                     </div>
                 </div>
             </div>
-            
+
             <div class="input-group mb-3">
                 <div class="input-group-prepend">
                     <label class="input-group-text" for="tempat_survey">Pilih Pasar</label>

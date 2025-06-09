@@ -21,7 +21,9 @@ class KomoditasController extends Controller
      */
     public function create()
     {
-        return view('komoditas.create');
+        $komoditas = ['Beras', 'Gula Pasir', 'Tepung Terigu', 'Minyak Goreng', 'Daging Babi', 'Daging Sapi', 'Daging Ayam', 'Telur Ayam', 'Cabai Besar/Merah', 'Cabai Rawit', 'Bawang Merah', 'Bawang Putih', 'Jeruk', 'Pisang', 'Jagung', 'Ubi Jalar', 'Tomat', 'Ikan Tongkol', 'Ikan Lele', 'Kelapa'];
+
+        return view('komoditas.create', compact('komoditas'));
     }
 
     /**
