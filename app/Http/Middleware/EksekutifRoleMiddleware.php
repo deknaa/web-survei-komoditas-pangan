@@ -17,7 +17,7 @@ class EksekutifRoleMiddleware
     public function handle(Request $request, Closure $next): Response
     {
         if(Auth::user()->role !== 'eksekutif'){
-            return redirect('dashboard/eksekutif');
+            return redirect('eksekutif/dashboard');
         }
         
         return $next($request);
