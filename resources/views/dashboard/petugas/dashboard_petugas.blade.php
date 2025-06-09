@@ -27,7 +27,8 @@
                                     Ketersediaan Pangan
                                 </div>
                                 <div class="h4 mb-2 font-weight-bold text-gray-800">
-                                    {{ number_format($ketersediaanPangan, 0, ',', '.') }} <small class="text-muted">Ton</small>
+                                    {{ number_format($ketersediaanPangan, 0, ',', '.') }} <small
+                                        class="text-muted">Ton</small>
                                 </div>
                             </div>
                             <div class="col-auto">
@@ -40,7 +41,11 @@
                     <div class="card-footer bg-primary bg-gradient py-2">
                         <div class="text-white text-xs text-center">
                             <i class="fas fa-arrow-up me-1"></i>
-                            Status: Tersedia
+                            @if ($ketersediaanPangan > $kebutuhanPangan)
+                                Status: Mencukupi
+                            @else
+                                Status: Tidak Mencukupi
+                            @endif
                         </div>
                     </div>
                 </div>
@@ -69,7 +74,11 @@
                     <div class="card-footer bg-success bg-gradient py-2">
                         <div class="text-white text-xs text-center">
                             <i class="fas fa-chart-bar me-1"></i>
-                            Target Tercapai
+                            @if($kebutuhanPangan > $ketersediaanPangan)
+                                Status: Tidak Mencukupi
+                            @else
+                                Status: Mencukupi
+                            @endif
                         </div>
                     </div>
                 </div>
@@ -101,7 +110,11 @@
                     <div class="card-footer bg-warning bg-gradient py-2">
                         <div class="text-white text-xs text-center">
                             <i class="fas fa-exclamation-triangle me-1"></i>
-                            Perlu Tindakan
+                            @if($surveyBelumDiAcc > 0)
+                                Perlu Tindakan
+                            @else
+                                Tidak Ada
+                            @endif
                         </div>
                     </div>
                 </div>
@@ -139,7 +152,8 @@
                             <i class="fas fa-calendar-alt me-1"></i>
                             Tanggal Mulai
                         </label>
-                        <input type="date" id="tanggal" class="form-control form-control-modern" value="{{ date('Y-m-d') }}">
+                        <input type="date" id="tanggal" class="form-control form-control-modern"
+                            value="{{ date('Y-m-d') }}">
                     </div>
                     <div class="col-md-4 mb-3">
                         <label class="form-label fw-bold text-gray-700">
@@ -185,7 +199,8 @@
                         <label class="form-label fw-bold text-gray-700">Tahun</label>
                         <select id="tahun" class="form-select form-select-modern">
                             @for ($y = 2020; $y <= now()->year; $y++)
-                                <option value="{{ $y }}" {{ $y == now()->year ? 'selected' : '' }}>{{ $y }}</option>
+                                <option value="{{ $y }}" {{ $y == now()->year ? 'selected' : '' }}>
+                                    {{ $y }}</option>
                             @endfor
                         </select>
                     </div>
@@ -233,7 +248,7 @@
         .tracking-wide {
             letter-spacing: 0.5px;
         }
-        
+
         .icon-circle {
             width: 60px;
             height: 60px;
@@ -243,11 +258,11 @@
             justify-content: center;
             font-size: 1.2rem;
         }
-        
+
         .progress-sm {
             height: 4px;
         }
-        
+
         .form-control-modern,
         .form-select-modern {
             border: 2px solid #e3e6f0;
@@ -255,13 +270,13 @@
             padding: 0.75rem 1rem;
             transition: all 0.3s ease;
         }
-        
+
         .form-control-modern:focus,
         .form-select-modern:focus {
             border-color: #4e73df;
             box-shadow: 0 0 0 0.2rem rgba(78, 115, 223, 0.25);
         }
-        
+
         .chart-container {
             position: relative;
             height: 400px;
@@ -269,22 +284,22 @@
             border-radius: 0.5rem;
             padding: 1rem;
         }
-        
+
         .table-hover tbody tr:hover {
             background-color: rgba(78, 115, 223, 0.05);
             transform: translateY(-1px);
             transition: all 0.2s ease;
         }
-        
+
         .card {
             transition: transform 0.2s ease, box-shadow 0.2s ease;
         }
-        
+
         .card:hover {
             transform: translateY(-2px);
             box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15) !important;
         }
-        
+
         .alert-icon {
             background: rgba(78, 115, 223, 0.1);
             border-radius: 50%;
@@ -294,12 +309,12 @@
             align-items: center;
             justify-content: center;
         }
-        
+
         .badge {
             font-size: 0.7rem;
             padding: 0.4rem 0.8rem;
         }
-        
+
         .table thead th {
             border-bottom: 2px solid #e3e6f0;
             font-weight: 700;
@@ -307,7 +322,7 @@
             font-size: 0.8rem;
             padding: 1rem 0.75rem;
         }
-        
+
         .table tbody td {
             padding: 1rem 0.75rem;
             vertical-align: middle;
@@ -437,7 +452,7 @@
 
         window.addEventListener('DOMContentLoaded', fetchKomoditasList);
     </script>
-    
+
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             function loadData() {
