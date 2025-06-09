@@ -13,7 +13,9 @@ class KomoditasController extends Controller
     public function index()
     {
         $komoditas = Komoditas::all();
-        return view('komoditas.index', compact('komoditas'));
+        $namaKomoditas = ['Beras', 'Gula Pasir', 'Tepung Terigu', 'Minyak Goreng', 'Daging Babi', 'Daging Sapi', 'Daging Ayam', 'Telur Ayam', 'Cabai Besar/Merah', 'Cabai Rawit', 'Bawang Merah', 'Bawang Putih', 'Jeruk', 'Pisang', 'Jagung', 'Ubi Jalar', 'Tomat', 'Ikan Tongkol', 'Ikan Lele', 'Kelapa'];
+
+        return view('komoditas.index', compact('komoditas', 'namaKomoditas'));
     }
 
     /**

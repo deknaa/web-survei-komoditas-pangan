@@ -42,13 +42,15 @@
                                     <td>{{ ucwords(str_replace('_', ' ', $komoditas->tempat_survey)) }}</td>
                                     <td>{{ $komoditas->tgl_pelaksanaan }}</td>
                                     <td>Minggu ke-{{ $komoditas->minggu_dilakukan_survey }}</td>
-                                    <td>{{ $komoditas->status_verifikasi == 'sudah_diverifikasi' ? 'Terverifikasi' : 'Belum Terverifikasi' }}</td>
+                                    <td>{{ $komoditas->status_verifikasi == 'sudah_diverifikasi' ? 'Terverifikasi' : 'Belum Terverifikasi' }}
+                                    </td>
                                     <td class="d-flex">
                                         <button type="button" class="btn btn-success mr-1" data-toggle="modal"
                                             data-target="#editKomoditasModal{{ $komoditas->id }}">
                                             Edit
                                         </button>
-                                        <form id="form-hapus-{{ $komoditas->id }}" action="{{ route('komoditas.destroy', $komoditas->id) }}" method="POST">
+                                        <form id="form-hapus-{{ $komoditas->id }}"
+                                            action="{{ route('komoditas.destroy', $komoditas->id) }}" method="POST">
                                             @csrf
                                             @method('DELETE')
                                             <button type="button" class="btn btn-danger btn-hapus"
@@ -75,12 +77,25 @@
                                                     method="POST">
                                                     @csrf
                                                     @method('PUT')
-                                                    <div class="mb-3">
-                                                        <label for="nama_komoditas" class="form-label">Nama
-                                                            Komoditas</label>
-                                                        <input type="text" class="form-control" id="nama_komoditas"
-                                                            placeholder="Nama Komoditas" name="nama_komoditas"
-                                                            value="{{ $komoditas->nama_komoditas }}">
+                                                    <div class="input-group mb-3">
+                                                        <div class="input-group-prepend">
+                                                            <label class="input-group-text" for="nama_komoditas">Pilih
+                                                                Komoditas</label>
+                                                        </div>
+                                                        <select class="custom-select" id="nama_komoditas"
+                                                            name="nama_komoditas" required>
+                                                            <option value="" disabled selected>Pilih Komoditas
+                                                            </option>
+                                                            @foreach ($namaKomoditas as $item)
+                                                                <option value="{{ $item }}"
+                                                                    {{ $komoditas->nama_komoditas == $item ? 'selected' : '' }}>
+                                                                    {{ $item }}
+                                                                </option>
+                                                            @endforeach
+                                                        </select>
+                                                        @error('nama_komoditas')
+                                                            <div class="text-danger">{{ $message }}</div>
+                                                        @enderror
                                                     </div>
                                                     <div class="mb-3">
                                                         <label for="harga_komoditas" class="form-label">Harga
