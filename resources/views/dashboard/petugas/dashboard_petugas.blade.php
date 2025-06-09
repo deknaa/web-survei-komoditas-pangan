@@ -29,9 +29,6 @@
                                 <div class="h4 mb-2 font-weight-bold text-gray-800">
                                     {{ number_format($ketersediaanPangan, 0, ',', '.') }} <small class="text-muted">Ton</small>
                                 </div>
-                                <div class="progress progress-sm">
-                                    <div class="progress-bar bg-primary" role="progressbar" style="width: 75%"></div>
-                                </div>
                             </div>
                             <div class="col-auto">
                                 <div class="icon-circle bg-primary">
@@ -60,9 +57,6 @@
                                 </div>
                                 <div class="h4 mb-2 font-weight-bold text-gray-800">
                                     {{ number_format($kebutuhanPangan, 0, ',', '.') }} <small class="text-muted">Ton</small>
-                                </div>
-                                <div class="progress progress-sm">
-                                    <div class="progress-bar bg-success" role="progressbar" style="width: 60%"></div>
                                 </div>
                             </div>
                             <div class="col-auto">
