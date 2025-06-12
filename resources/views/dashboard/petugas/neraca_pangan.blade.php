@@ -67,7 +67,7 @@
                         <label class="form-label">Minggu</label>
                         <select id="minggu" class="form-control">
                             <option value="">Semua</option>
-                            @for ($i = 1; $i <= 4; $i++)
+                            @for ($i = 1; $i <= 5; $i++)
                                 <option value="{{ $i }}">Minggu {{ $i }}</option>
                             @endfor
                         </select>
@@ -161,7 +161,7 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // Export functionality
     exportBtn.addEventListener('click', function() {
-        alert('Fitur export akan segera tersedia');
+        exportData();
     });
     
     // Reset filter
@@ -319,6 +319,53 @@ document.addEventListener('DOMContentLoaded', function() {
             month: 'short',
             year: 'numeric'
         });
+    }
+    
+    function exportData() {
+        const formData = {
+            nama_komoditas: document.getElementById('nama_komoditas').value,
+            tahun: document.getElementById('tahun').value,
+            bulan: document.getElementById('bulan').value,
+            pasar: document.getElementById('pasar').value,
+            minggu: document.getElementById('minggu').value
+        };
+        
+        // Show loading on export button
+        const originalText = exportBtn.innerHTML;
+        exportBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Exporting...';
+        exportBtn.disabled = true;
+        
+        // Create form for download
+        const form = document.createElement('form');
+        form.method = 'POST';
+        form.action = "{{ route('komoditas.export') }}";
+        form.style.display = 'none';
+        
+        // Add CSRF token
+        const csrfInput = document.createElement('input');
+        csrfInput.type = 'hidden';
+        csrfInput.name = '_token';
+        csrfInput.value = "{{ csrf_token() }}";
+        form.appendChild(csrfInput);
+        
+        // Add form data
+        Object.keys(formData).forEach(key => {
+            const input = document.createElement('input');
+            input.type = 'hidden';
+            input.name = key;
+            input.value = formData[key] || '';
+            form.appendChild(input);
+        });
+        
+        document.body.appendChild(form);
+        form.submit();
+        document.body.removeChild(form);
+        
+        // Reset button after delay
+        setTimeout(() => {
+            exportBtn.innerHTML = originalText;
+            exportBtn.disabled = false;
+        }, 2000);
     }
 });
 </script>

@@ -30,12 +30,14 @@ Route::middleware('auth')->group(function () {
 
     // Komoditas
     Route::resource('komoditas', KomoditasController::class);
+    Route::post('/search', [KomoditasController::class, 'search'])->name('komoditas.search');
+    Route::post('/export', [KomoditasController::class, 'export'])->name('komoditas.export');
+    Route::post('komoditas/export', [KomoditasController::class, 'export'])->name('komoditas.export');
 });
 
 Route::middleware(['auth', 'eksekutifRole'])->prefix('eksekutif')->group(function () {
     Route::get('/dashboard', [EksekutifController::class, 'index'])->name('dashboard.eksekutif');
     Route::put('/komoditas/{id}/verifikasi', [KomoditasController::class, 'verifikasi'])->name('komoditas.verifikasi');
-
 });
 
 Route::middleware(['auth', 'petugasRole'])->prefix('petugas')->group(function () {
