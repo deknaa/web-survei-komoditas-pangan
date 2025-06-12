@@ -56,6 +56,14 @@
                                             <button type="button" class="btn btn-danger btn-hapus"
                                                 data-id="{{ $komoditas->id }}">Hapus</button>
                                         </form>
+                                        @if (auth()->user()->role === 'eksekutif' && $komoditas->status_verifikasi !== 'sudah_diverifikasi')
+                                            <form action="{{ route('komoditas.verifikasi', $komoditas->id) }}"
+                                                method="POST" class="mr-1">
+                                                @csrf
+                                                @method('PUT')
+                                                <button type="submit" class="btn btn-warning">Verifikasi</button>
+                                            </form>
+                                        @endif
                                     </td>
                                 </tr>
 

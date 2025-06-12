@@ -27,17 +27,19 @@ Route::middleware('auth')->group(function () {
 
     Route::get('neraca-pangan', [NeracaController::class, 'index'])->name('neraca-pangan');
     Route::post('/neraca-pangan/cari', [NeracaController::class, 'search'])->name('komoditas.search');
+
+    // Komoditas
+    Route::resource('komoditas', KomoditasController::class);
 });
 
 Route::middleware(['auth', 'eksekutifRole'])->prefix('eksekutif')->group(function () {
     Route::get('/dashboard', [EksekutifController::class, 'index'])->name('dashboard.eksekutif');
+    Route::put('/komoditas/{id}/verifikasi', [KomoditasController::class, 'verifikasi'])->name('komoditas.verifikasi');
+
 });
 
 Route::middleware(['auth', 'petugasRole'])->prefix('petugas')->group(function () {
     Route::get('/dashboard', [PetugasController::class, 'index'])->name('dashboard');
-
-    // Komoditas
-    Route::resource('komoditas', KomoditasController::class);
 });
 
 require __DIR__ . '/auth.php';

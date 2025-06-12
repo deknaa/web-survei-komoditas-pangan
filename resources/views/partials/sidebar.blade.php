@@ -31,7 +31,8 @@
      </div>
 
      <li class="nav-item {{ Route::currentRouteName() === 'komoditas.index' ? 'active' : '' }}">
-         <a class="nav-link" href="{{ Auth::user()->role === 'eksekutif' ? route('dashboard.eksekutif') : route('dashboard') }}"">
+         <a class="nav-link"
+             href="{{ route('komoditas.index') }}">
              <i class="fas fa-fw fa-box"></i>
              <span>Kelola Komoditas</span></a>
      </li>
@@ -63,7 +64,8 @@
      <li class="nav-item">
          <form method="POST" action="{{ route('logout') }}">
              @csrf
-             <a href="{{ route('logout') }}" class="nav-link" onclick="event.preventDefault(); this.closest('form').submit();">
+             <a href="{{ route('logout') }}" class="nav-link"
+                 onclick="event.preventDefault(); this.closest('form').submit();">
                  <i class="fas fa-sign-out-alt fa-sm fa-fw "></i>
                  Logout
              </a>

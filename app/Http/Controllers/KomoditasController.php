@@ -49,22 +49,6 @@ class KomoditasController extends Controller
     }
 
     /**
-     * Display the specified resource.
-     */
-    public function show(Komoditas $komoditas)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Komoditas $komoditas)
-    {
-        //
-    }
-
-    /**
      * Update the specified resource in storage.
      */
     public function update(Request $request, string $id)
@@ -92,5 +76,18 @@ class KomoditasController extends Controller
         $komoditas->delete();
 
         return redirect()->route('komoditas.index')->with('sucess', 'Data Komoditas berhasil di hapus');
+    }
+
+    public function verifikasi($id)
+    {
+        if (auth()->user()->role !== 'eksekutif') {
+            abort(403, 'Unauthorized action.');
+        }
+
+        $komoditas = Komoditas::findOrFail($id);
+        $komoditas->status_verifikasi = 'sudah_diverifikasi';
+        $komoditas->save();
+
+        return redirect()->back()->with('success', 'Data berhasil diverifikasi.');
     }
 }
