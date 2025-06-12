@@ -357,14 +357,12 @@ class KomoditasController extends Controller
     private function getStatusText($status)
     {
         switch ($status) {
-            case 'verified':
+            case 'sudah_diverifikasi':
                 return 'Terverifikasi';
-            case 'pending':
-                return 'Menunggu';
-            case 'rejected':
-                return 'Ditolak';
+            case 'belum_diverifikasi':
+                return 'Belum Terverifikasi';
             default:
-                return 'Menunggu';
+                return 'Belum Terverifikasi';
         }
     }
 }

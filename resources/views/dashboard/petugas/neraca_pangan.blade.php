@@ -67,7 +67,7 @@
                         <label class="form-label">Minggu</label>
                         <select id="minggu" class="form-control">
                             <option value="">Semua</option>
-                            @for ($i = 1; $i <= 5; $i++)
+                            @for ($i = 1; $i <= 4; $i++)
                                 <option value="{{ $i }}">Minggu {{ $i }}</option>
                             @endfor
                         </select>

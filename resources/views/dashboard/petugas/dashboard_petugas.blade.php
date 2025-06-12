@@ -5,7 +5,7 @@
         <!-- Welcome Alert -->
         <div class="alert alert-primary border-0 shadow-sm mb-4" role="alert">
             <div class="d-flex align-items-center">
-                <div class="alert-icon me-3">
+                <div class="alert-icon mr-3">
                     <i class="fas fa-user-circle fa-2x text-primary"></i>
                 </div>
                 <div>
