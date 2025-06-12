@@ -46,7 +46,7 @@
      </div>
 
      <!-- Nav Item - Charts -->
-     <li class="nav-item">
+     <li class="nav-item {{ Route::currentRouteName() === 'neraca-pangan' ? 'active' : '' }}">
          <a class="nav-link" href="{{ route('neraca-pangan') }}">
              <i class="fas fa-fw fa-chart-area"></i>
              <span>Neraca Komoditas</span></a>
