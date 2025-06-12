@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\EksekutifController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProfileController;
@@ -19,12 +20,17 @@ Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+
+    Route::get('/api/komoditas-list', [PetugasController::class, 'getKomoditasList']);
+    Route::get('/api/harga-komoditas', [PetugasController::class, 'getHargaKomoditas']);
+    Route::post('/api/neraca-pangan', [PetugasController::class, 'getData'])->name('pangan.data');
+
+    Route::get('neraca-pangan', [NeracaController::class, 'index'])->name('neraca-pangan');
+    Route::post('/neraca-pangan/cari', [NeracaController::class, 'search'])->name('komoditas.search');
 });
 
 Route::middleware(['auth', 'eksekutifRole'])->prefix('eksekutif')->group(function () {
-    Route::get('/dashboard', function () {
-        return view('dashboard.eksekutif.dashboard_eksekutif');
-    })->name('dashboard.eksekutif');
+    Route::get('/dashboard', [EksekutifController::class, 'index'])->name('dashboard.eksekutif');
 });
 
 Route::middleware(['auth', 'petugasRole'])->prefix('petugas')->group(function () {
@@ -32,12 +38,6 @@ Route::middleware(['auth', 'petugasRole'])->prefix('petugas')->group(function ()
 
     // Komoditas
     Route::resource('komoditas', KomoditasController::class);
-    Route::get('/api/komoditas-list', [PetugasController::class, 'getKomoditasList']);
-    Route::get('/api/harga-komoditas', [PetugasController::class, 'getHargaKomoditas']);
-    Route::post('/api/neraca-pangan', [PetugasController::class, 'getData'])->name('pangan.data');
-
-    Route::get('neraca-pangan', [NeracaController::class, 'index'])->name('neraca-pangan');
-    Route::post('/neraca-pangan/cari', [NeracaController::class, 'search'])->name('komoditas.search');
 });
 
 require __DIR__ . '/auth.php';

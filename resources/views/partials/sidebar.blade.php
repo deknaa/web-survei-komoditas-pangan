@@ -31,7 +31,7 @@
      </div>
 
      <li class="nav-item {{ Route::currentRouteName() === 'komoditas.index' ? 'active' : '' }}">
-         <a class="nav-link" href="{{ route('komoditas.index') }}">
+         <a class="nav-link" href="{{ Auth::user()->role === 'eksekutif' ? route('dashboard.eksekutif') : route('dashboard') }}"">
              <i class="fas fa-fw fa-box"></i>
              <span>Kelola Komoditas</span></a>
      </li>
