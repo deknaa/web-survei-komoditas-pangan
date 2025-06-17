@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Komoditas;
+use Carbon\Carbon;
 use DateTime;
 use Illuminate\Http\Request;
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
@@ -18,7 +19,7 @@ class KomoditasController extends Controller
      */
     public function index()
     {
-        $komoditas = Komoditas::all();
+        $komoditas = Komoditas::orderBy('tgl_pelaksanaan', 'desc')->paginate(10); // 10 data per halaman
         $namaKomoditas = ['Beras', 'Gula Pasir', 'Tepung Terigu', 'Minyak Goreng', 'Daging Babi', 'Daging Sapi', 'Daging Ayam', 'Telur Ayam', 'Cabai Besar/Merah', 'Cabai Rawit', 'Bawang Merah', 'Bawang Putih', 'Jeruk', 'Pisang', 'Jagung', 'Ubi Jalar', 'Tomat', 'Ikan Tongkol', 'Ikan Lele', 'Kelapa'];
 
         return view('komoditas.index', compact('komoditas', 'namaKomoditas'));
@@ -39,39 +40,64 @@ class KomoditasController extends Controller
      */
     public function store(Request $request)
     {
-        $komoditas = $request->validate([
-            'nama_komoditas' => 'required|string',
+        $request->validate([
+            'nama_komoditas' => 'required',
             'harga_komoditas' => 'required|numeric',
             'jumlah_komoditas' => 'required|numeric',
             'kebutuhan_rumah_tangga' => 'required|numeric',
-            'tempat_survey' => 'required|string|in:pasar_kediri,pasar_baturiti,pasar_pesiapan,pasar_tabanan',
+            'tempat_survey' => 'required',
             'tgl_pelaksanaan' => 'required|date',
             'minggu_dilakukan_survey' => 'required|numeric',
         ]);
 
-        Komoditas::create($komoditas);
+        // Cek apakah data untuk komoditas dan minggu tersebut sudah ada
+        $existing = Komoditas::where('nama_komoditas', $request->nama_komoditas)
+            ->where('minggu_dilakukan_survey', $request->minggu_dilakukan_survey)
+            ->where('tempat_survey', $request->tempat_survey)
+            ->whereYear('tgl_pelaksanaan', Carbon::parse($request->tgl_pelaksanaan)->year)
+            ->whereMonth('tgl_pelaksanaan', Carbon::parse($request->tgl_pelaksanaan)->month)
+            ->first();
 
-        return redirect()->route('komoditas.index');
+        if ($existing) {
+            return back()
+                ->withErrors(['msg' => 'Data untuk komoditas ini pada minggu dan tempat tersebut sudah ada.'])
+                ->withInput();
+        }
+
+        // Simpan data baru
+        Komoditas::create([
+            'nama_komoditas' => $request->nama_komoditas,
+            'harga_komoditas' => $request->harga_komoditas,
+            'jumlah_komoditas' => $request->jumlah_komoditas,
+            'kebutuhan_rumah_tangga' => $request->kebutuhan_rumah_tangga,
+            'tempat_survey' => $request->tempat_survey,
+            'tgl_pelaksanaan' => $request->tgl_pelaksanaan,
+            'minggu_dilakukan_survey' => $request->minggu_dilakukan_survey,
+        ]);
+
+        return redirect()->route('komoditas.index')->with('success', 'Data komoditas berhasil disimpan.');
     }
 
     /**
      * Update the specified resource in storage.
      */
     public function update(Request $request, string $id)
-    {
-        $data = $request->validate([
-            'nama_komoditas' => 'nullable|string',
-            'harga_komoditas' => 'nullable|numeric',
-            'jumlah_komoditas' => 'nullable|numeric',
-            'tempat_survey' => 'nullable|string',
-            'tgl_pelaksanaan' => 'nullable|date',
-        ]);
+{
+    $data = $request->validate([
+        'nama_komoditas' => 'nullable|string',
+        'harga_komoditas' => 'nullable|numeric',
+        'jumlah_komoditas' => 'nullable|numeric',
+        'kebutuhan_rumah_tangga' => 'nullable|numeric',
+        'tempat_survey' => 'nullable|string',
+        'tgl_pelaksanaan' => 'nullable|date',
+        'minggu_dilakukan_survey' => 'nullable|numeric',
+    ]);
 
-        $komoditas = Komoditas::where('id', $id)->firstOrFail();
-        $komoditas->update($data);
+    $komoditas = Komoditas::where('id', $id)->firstOrFail();
+    $komoditas->update($data);
 
-        return redirect()->route('komoditas.index')->with('Data komoditas berhasil diperbaharui');
-    }
+    return redirect()->route('komoditas.index')->with('success', 'Data komoditas berhasil diperbaharui.');
+}
 
     /**
      * Remove the specified resource from storage.
