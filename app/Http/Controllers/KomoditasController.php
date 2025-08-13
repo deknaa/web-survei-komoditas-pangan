@@ -2,10 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Exports\KomoditasExport;
 use App\Models\Komoditas;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Carbon\Carbon;
 use DateTime;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 use PhpOffice\PhpSpreadsheet\Style\Alignment;
@@ -41,11 +44,11 @@ class KomoditasController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'nama_komoditas' => 'required',
+            'nama_komoditas' => 'required|string|max:255',
             'harga_komoditas' => 'required|numeric',
             'jumlah_komoditas' => 'required|numeric',
             'kebutuhan_rumah_tangga' => 'required|numeric',
-            'tempat_survey' => 'required',
+            'tempat_survey' => 'required|string|max:255',
             'tgl_pelaksanaan' => 'required|date',
             'minggu_dilakukan_survey' => 'required|numeric',
         ]);
@@ -73,6 +76,7 @@ class KomoditasController extends Controller
             'tempat_survey' => $request->tempat_survey,
             'tgl_pelaksanaan' => $request->tgl_pelaksanaan,
             'minggu_dilakukan_survey' => $request->minggu_dilakukan_survey,
+            'user_id' => Auth::id(), // menyimpan ID user petugas yang login
         ]);
 
         return redirect()->route('komoditas.index')->with('success', 'Data komoditas berhasil disimpan.');
@@ -82,22 +86,22 @@ class KomoditasController extends Controller
      * Update the specified resource in storage.
      */
     public function update(Request $request, string $id)
-{
-    $data = $request->validate([
-        'nama_komoditas' => 'nullable|string',
-        'harga_komoditas' => 'nullable|numeric',
-        'jumlah_komoditas' => 'nullable|numeric',
-        'kebutuhan_rumah_tangga' => 'nullable|numeric',
-        'tempat_survey' => 'nullable|string',
-        'tgl_pelaksanaan' => 'nullable|date',
-        'minggu_dilakukan_survey' => 'nullable|numeric',
-    ]);
+    {
+        $data = $request->validate([
+            'nama_komoditas' => 'nullable|string',
+            'harga_komoditas' => 'nullable|numeric',
+            'jumlah_komoditas' => 'nullable|numeric',
+            'kebutuhan_rumah_tangga' => 'nullable|numeric',
+            'tempat_survey' => 'nullable|string',
+            'tgl_pelaksanaan' => 'nullable|date',
+            'minggu_dilakukan_survey' => 'nullable|numeric',
+        ]);
 
-    $komoditas = Komoditas::where('id', $id)->firstOrFail();
-    $komoditas->update($data);
+        $komoditas = Komoditas::where('id', $id)->firstOrFail();
+        $komoditas->update($data);
 
-    return redirect()->route('komoditas.index')->with('success', 'Data komoditas berhasil diperbaharui.');
-}
+        return redirect()->route('komoditas.index')->with('success', 'Data komoditas berhasil diperbaharui.');
+    }
 
     /**
      * Remove the specified resource from storage.
@@ -390,5 +394,160 @@ class KomoditasController extends Controller
             default:
                 return 'Belum Terverifikasi';
         }
+    }
+
+    public function exports(Request $request)
+    {
+        // Cek apakah user adalah eksekutif
+        if (auth()->user()->role !== 'eksekutif') {
+            abort(403, 'Unauthorized action.');
+        }
+
+        $format = $request->get('format', 'excel');
+
+        // Build query dengan filter
+        $query = Komoditas::query();
+
+        // Filter berdasarkan tempat survey
+        if ($request->filled('tempat_survey')) {
+            $query->where('tempat_survey', $request->tempat_survey);
+        }
+
+        // Filter berdasarkan status verifikasi
+        if ($request->filled('status_verifikasi')) {
+            $query->where('status_verifikasi', $request->status_verifikasi);
+        }
+
+        // Filter berdasarkan tanggal
+        if ($request->filled('tanggal_dari')) {
+            $query->where('tgl_pelaksanaan', '>=', $request->tanggal_dari);
+        }
+
+        if ($request->filled('tanggal_sampai')) {
+            $query->where('tgl_pelaksanaan', '<=', $request->tanggal_sampai);
+        }
+
+        // Order by tanggal pelaksanaan
+        $query->orderBy('tgl_pelaksanaan', 'desc');
+
+        $komoditas = $query->get();
+
+        // Generate filename dengan timestamp
+        $timestamp = now()->format('Y-m-d_H-i-s');
+        $filename = "komoditas_pangan_{$timestamp}";
+
+        switch ($format) {
+            case 'excel':
+                return $this->exportExcel($komoditas, $filename);
+
+            case 'pdf':
+                return $this->exportToPdf($komoditas, $filename);
+
+            default:
+                return redirect()->back()->with('error', 'Format export tidak valid');
+        }
+    }
+
+    /**
+     * Export ke Excel menggunakan versi 1.1
+     */
+    private function exportExcel($data)
+    {
+        $spreadsheet = new Spreadsheet();
+        $sheet = $spreadsheet->getActiveSheet();
+
+        // Header
+        $headers = [
+            'A1' => 'No',
+            'B1' => 'Nama Komoditas',
+            'C1' => 'Harga',
+            'D1' => 'Ketersediaan',
+            'E1' => 'Kebutuhan',
+            'F1' => 'Tempat Survey',
+            'G1' => 'Tanggal Pelaksanaan',
+            'H1' => 'Minggu Survey',
+            'I1' => 'Status Verifikasi'
+        ];
+
+        foreach ($headers as $cell => $value) {
+            $sheet->setCellValue($cell, $value);
+        }
+
+        // Styling Header
+        $sheet->getStyle('A1:I1')->applyFromArray([
+            'font' => [
+                'bold' => true,
+                'color' => ['rgb' => 'FFFFFF']
+            ],
+            'fill' => [
+                'fillType' => \PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID,
+                'color' => ['rgb' => '4F81BD']
+            ],
+            'alignment' => [
+                'horizontal' => \PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER,
+                'vertical' => \PhpOffice\PhpSpreadsheet\Style\Alignment::VERTICAL_CENTER
+            ]
+        ]);
+
+        // Isi data
+        $row = 2;
+        foreach ($data as $index => $item) {
+            $sheet->setCellValue('A' . $row, $index + 1);
+            $sheet->setCellValue('B' . $row, $item->nama_komoditas);
+            $sheet->setCellValue('C' . $row, $item->harga_komoditas);
+            $sheet->setCellValue('D' . $row, $item->jumlah_komoditas);
+            $sheet->setCellValue('E' . $row, $item->kebutuhan_rumah_tangga);
+            $sheet->setCellValue('F' . $row, ucwords(str_replace('_', ' ', $item->tempat_survey)));
+            $sheet->setCellValue('G' . $row, \Carbon\Carbon::parse($item->tgl_pelaksanaan)->format('d/m/Y'));
+            $sheet->setCellValue('H' . $row, $item->minggu_dilakukan_survey);
+            $sheet->setCellValue('I' . $row, $item->status_verifikasi);
+            $row++;
+        }
+
+        // Border
+        $sheet->getStyle('A1:I' . ($row - 1))->applyFromArray([
+            'borders' => [
+                'allBorders' => [
+                    'borderStyle' => \PhpOffice\PhpSpreadsheet\Style\Border::BORDER_THIN,
+                    'color' => ['rgb' => '000000']
+                ]
+            ]
+        ]);
+
+        // Auto size kolom
+        foreach (range('A', 'I') as $col) {
+            $sheet->getColumnDimension($col)->setAutoSize(true);
+        }
+
+        // Format harga jadi ribuan
+        $sheet->getStyle('C2:C' . ($row - 1))
+            ->getNumberFormat()
+            ->setFormatCode('#,##0');
+
+        // Output file
+        $writer = new Xlsx($spreadsheet);
+        $fileName = 'komoditas.xlsx';
+        $temp_file = tempnam(sys_get_temp_dir(), $fileName);
+        $writer->save($temp_file);
+
+        return response()->download($temp_file, $fileName)->deleteFileAfterSend(true);
+    }
+
+    /**
+     * Export data ke PDF
+     */
+    private function exportToPdf($komoditas, $filename)
+    {
+        $data = [
+            'komoditas' => $komoditas,
+            'title' => 'Laporan Data Komoditas Pangan',
+            'exported_at' => now()->format('d/m/Y H:i:s'),
+            'exported_by' => auth()->user()->name
+        ];
+
+        $pdf = Pdf::loadView('exports.komoditas-pdf', $data);
+        $pdf->setPaper('A4', 'landscape');
+
+        return $pdf->download("{$filename}.pdf");
     }
 }

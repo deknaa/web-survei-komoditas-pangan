@@ -21,6 +21,8 @@ return new class extends Migration
             $table->date('tgl_pelaksanaan');
             $table->integer('minggu_dilakukan_survey');
             $table->enum('status_verifikasi', ['belum_diverifikasi', 'sudah_diverifikasi'])->default('belum_diverifikasi');
+            $table->unsignedBigInteger('user_id')->nullable();
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('set null');
             $table->timestamps();
         });
     }

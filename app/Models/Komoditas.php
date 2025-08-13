@@ -15,5 +15,11 @@ class Komoditas extends Model
         'tgl_pelaksanaan',
         'minggu_dilakukan_survey',
         'status_verifikasi',
+        'user_id',
     ];
+
+    public function user() 
+    {
+        return $this->belongsTo(User::class);
+    }
 }
