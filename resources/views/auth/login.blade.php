@@ -4,7 +4,7 @@
             <div class="col-md-6 col-lg-5"> {{-- Lebar diperbesar --}}
                 <div class="card shadow-lg border-0 rounded-lg">
                     <div class="card-header text-center bg-primary text-white py-3">
-                        <h4 class="mb-0 font-weight-bold">{{ __('Login') }}</h4>
+                        <h4 class="mb-0 font-weight-bold">{{ __('Silahkan Login Dahulu') }}</h4>
                     </div>
                     <div class="card-body p-4">
 
