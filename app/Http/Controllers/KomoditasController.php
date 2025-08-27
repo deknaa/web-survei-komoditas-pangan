@@ -88,13 +88,13 @@ class KomoditasController extends Controller
     public function update(Request $request, string $id)
     {
         $data = $request->validate([
-            'nama_komoditas' => 'nullable|string',
-            'harga_komoditas' => 'nullable|numeric',
-            'jumlah_komoditas' => 'nullable|numeric',
-            'kebutuhan_rumah_tangga' => 'nullable|numeric',
-            'tempat_survey' => 'nullable|string',
-            'tgl_pelaksanaan' => 'nullable|date',
-            'minggu_dilakukan_survey' => 'nullable|numeric',
+            'nama_komoditas' => 'required|string',
+            'harga_komoditas' => 'required|numeric',
+            'jumlah_komoditas' => 'required|numeric',
+            'kebutuhan_rumah_tangga' => 'required|numeric',
+            'tempat_survey' => 'required|string',
+            'tgl_pelaksanaan' => 'required|date',
+            'minggu_dilakukan_survey' => 'required|numeric',
         ]);
 
         $komoditas = Komoditas::where('id', $id)->firstOrFail();

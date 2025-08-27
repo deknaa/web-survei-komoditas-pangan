@@ -62,10 +62,10 @@
 
      <!-- Nav Item - Charts -->
      <li class="nav-item">
-         <form method="POST" action="{{ route('logout') }}">
+         <form id="logoutform" method="POST" action="{{ route('logout') }}">
              @csrf
              <a href="{{ route('logout') }}" class="nav-link"
-                 onclick="event.preventDefault(); this.closest('form').submit();">
+                 onclick="event.preventDefault(); confirmLogout();">
                  <i class="fas fa-sign-out-alt fa-sm fa-fw "></i>
                  Logout
              </a>
@@ -82,3 +82,22 @@
 
  </ul>
  <!-- End of Sidebar -->
+
+ <script>
+    function confirmLogout(){
+        Swal.fire({
+            title: 'Apakah Anda yakin?',
+            text: "Anda akan logout dari aplikasi.",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Ya, Logout!',
+            cancelButtonText: 'Batal'
+        }).then((result) => {
+            if(result.isConfirmed){
+                document.getElementById('logoutform').submit();
+            }
+        });
+    }
+ </script>

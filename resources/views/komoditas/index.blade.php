@@ -209,7 +209,7 @@
                                                             class="form-label">Harga Komoditas</label>
                                                         <input type="number" class="form-control"
                                                             id="harga_komoditas{{ $item->id }}"
-                                                            name="harga_komoditas" value="{{ $item->harga_komoditas }}">
+                                                            name="harga_komoditas" value="{{ $item->harga_komoditas }}" required>
                                                     </div>
                                                     <div class="mb-3">
                                                         <label for="jumlah_komoditas{{ $item->id }}"
@@ -217,7 +217,7 @@
                                                         <input type="number" class="form-control"
                                                             id="jumlah_komoditas{{ $item->id }}"
                                                             name="jumlah_komoditas"
-                                                            value="{{ $item->jumlah_komoditas }}">
+                                                            value="{{ $item->jumlah_komoditas }}" required>
                                                     </div>
                                                     <div class="mb-3">
                                                         <label for="kebutuhan_rumah_tangga{{ $item->id }}"
@@ -225,7 +225,7 @@
                                                         <input type="number" class="form-control"
                                                             id="kebutuhan_rumah_tangga{{ $item->id }}"
                                                             name="kebutuhan_rumah_tangga"
-                                                            value="{{ $item->kebutuhan_rumah_tangga }}">
+                                                            value="{{ $item->kebutuhan_rumah_tangga }}" required>
                                                     </div>
                                                     <div class="input-group mb-3">
                                                         <div class="input-group-prepend">
@@ -233,7 +233,7 @@
                                                                 for="tempat_survey{{ $item->id }}">Pasar</label>
                                                         </div>
                                                         <select class="custom-select"
-                                                            id="tempat_survey{{ $item->id }}" name="tempat_survey">
+                                                            id="tempat_survey{{ $item->id }}" name="tempat_survey" required>
                                                             <option value="pasar_kediri"
                                                                 {{ $item->tempat_survey == 'pasar_kediri' ? 'selected' : '' }}>
                                                                 Pasar Kediri</option>
@@ -253,7 +253,7 @@
                                                             class="form-label">Tanggal Pelaksanaan</label>
                                                         <input type="date" class="form-control"
                                                             id="tgl_pelaksanaan{{ $item->id }}"
-                                                            name="tgl_pelaksanaan" value="{{ $item->tgl_pelaksanaan }}">
+                                                            name="tgl_pelaksanaan" value="{{ $item->tgl_pelaksanaan }}" required>
                                                     </div>
                                                     <div class="mb-3">
                                                         <label for="minggu_dilakukan_survey{{ $item->id }}"
@@ -261,7 +261,7 @@
                                                         <input type="number" class="form-control"
                                                             id="minggu_dilakukan_survey{{ $item->id }}"
                                                             name="minggu_dilakukan_survey"
-                                                            value="{{ $item->minggu_dilakukan_survey }}">
+                                                            value="{{ $item->minggu_dilakukan_survey }}" required>
                                                     </div>
                                                 </div>
                                                 <div class="modal-footer">
