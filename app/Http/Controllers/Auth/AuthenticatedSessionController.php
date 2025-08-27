@@ -29,10 +29,10 @@ class AuthenticatedSessionController extends Controller
         $request->session()->regenerate();
 
         if($request->user()->role === 'eksekutif'){
-            return redirect('eksekutif/dashboard');
+            return redirect('eksekutif/dashboard')->with('success', 'Login Berhasil, selamat datang kembali👋');
         }
 
-        return redirect()->intended(route('dashboard', absolute: false));
+        return redirect()->intended(route('dashboard', absolute: false))->with('success', 'Login Berhasil, selamat datang kembali👋');
     }
 
     /**

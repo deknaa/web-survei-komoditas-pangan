@@ -74,7 +74,7 @@
                     <div class="card-footer bg-success bg-gradient py-2">
                         <div class="text-white text-xs text-center">
                             <i class="fas fa-chart-bar me-1"></i>
-                            @if($kebutuhanPangan > $ketersediaanPangan)
+                            @if ($kebutuhanPangan > $ketersediaanPangan)
                                 Status: Tidak Mencukupi
                             @else
                                 Status: Mencukupi
@@ -110,7 +110,7 @@
                     <div class="card-footer bg-warning bg-gradient py-2">
                         <div class="text-white text-xs text-center">
                             <i class="fas fa-exclamation-triangle me-1"></i>
-                            @if($surveyBelumDiAcc > 0)
+                            @if ($surveyBelumDiAcc > 0)
                                 Perlu Tindakan
                             @else
                                 Tidak Ada
@@ -241,6 +241,19 @@
                 </div>
             </div>
         </div>
+        @if (session('success'))
+            <script>
+                Swal.fire({
+                    toast: true,
+                    position: 'bottom-end',
+                    icon: 'success',
+                    title: "{{ session('success') }}",
+                    showConfirmButton: false,
+                    timer: 3000,
+                    timerProgressBar: true
+                });
+            </script>
+        @endif
     </div>
 
     <!-- Custom Styles -->
