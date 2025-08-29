@@ -15,6 +15,9 @@
             <button class="btn btn-primary btn-sm" id="refreshBtn">
                 <i class="fas fa-sync-alt"></i> Refresh
             </button>
+            <a href="{{ route('neraca-pangan.create') }}" class="btn btn-primary btn-sm">
+                <i class="fas fa-plus"></i> Tambah Neraca Pangan
+            </a>
         </div>
     </div>
 

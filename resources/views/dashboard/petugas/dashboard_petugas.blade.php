@@ -394,7 +394,7 @@
             const select = document.getElementById('komoditas');
             select.innerHTML = '<option value="">Loading...</option>';
 
-            fetch(`/petugas/api/komoditas-list?pasar=${pasar}&tanggal=${tanggal}`)
+            fetch(`/api/komoditas-list?pasar=${pasar}&tanggal=${tanggal}`)
                 .then(res => res.json())
                 .then(data => {
                     select.innerHTML = '<option value="">Pilih Komoditas</option>';

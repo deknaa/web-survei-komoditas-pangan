@@ -50,10 +50,10 @@
             <div class="row">
                 <div class="col-md-6">
                     <div class="card shadow mb-4">
-                        <div class="card-header font-weight-bold">Ketersediaan</div>
+                        <div class="card-header font-weight-bold">Ketersediaan Pangan</div>
                         <div class="card-body">
                             <div class="form-group">
-                                <label for="jumlah_komoditas">Jumlah Tersedia (Ton)</label>
+                                <label for="jumlah_komoditas">Stok (Ton)</label>
                                 <input type="text" id="jumlah_komoditas" name="jumlah_komoditas" class="form-control"
                                     required>
                             </div>
@@ -63,7 +63,7 @@
 
                 <div class="col-md-6">
                     <div class="card shadow mb-4">
-                        <div class="card-header font-weight-bold">Kebutuhan</div>
+                        <div class="card-header font-weight-bold">Kebutuhan Pangan</div>
                         <div class="card-body">
                             <div class="form-group">
                                 <label for="kebutuhan_rumah_tangga">Kebutuhan Rumah Tangga (Ton)</label>
