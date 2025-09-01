@@ -39,37 +39,4 @@ class NeracaController extends Controller
 
         return response()->json($query->get());
     }
-
-    public function create()
-    {
-        $komoditasList = Komoditas::select('nama_komoditas')->distinct()->pluck('nama_komoditas');
-        return view('dashboard.petugas.neraca_pangan_add', compact('komoditasList'));
-    }
-
-    public function hitung(Request $request)
-    {
-        // Ambil data komoditas sesuai filter
-        $ketersediaan = Komoditas::where('nama_komoditas', $request->nama_komoditas)
-            ->whereYear('tgl_pelaksanaan', $request->tahun)
-            ->whereMonth('tgl_pelaksanaan', $request->bulan)
-            ->when($request->minggu, fn($q) => $q->where('minggu_dilakukan_survey', $request->minggu))
-            ->when($request->pasar, fn($q) => $q->where('tempat_survey', $request->pasar))
-            ->sum('jumlah_komoditas');
-
-        $kebutuhan = Komoditas::where('nama_komoditas', $request->nama_komoditas)
-            ->whereYear('tgl_pelaksanaan', $request->tahun)
-            ->whereMonth('tgl_pelaksanaan', $request->bulan)
-            ->when($request->minggu, fn($q) => $q->where('minggu_dilakukan_survey', $request->minggu))
-            ->when($request->pasar, fn($q) => $q->where('tempat_survey', $request->pasar))
-            ->sum('kebutuhan_rumah_tangga');
-
-        $neraca = $ketersediaan - $kebutuhan;
-
-        return response()->json([
-            'ketersediaan' => number_format($ketersediaan, 3, ',', '.'),
-            'kebutuhan'    => number_format($kebutuhan, 3, ',', '.'),
-            'neraca'       => number_format($neraca, 3, ',', '.'),
-            'satuan'       => 'Ton'
-        ]);
-    }
 }

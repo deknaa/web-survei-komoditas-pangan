@@ -27,8 +27,6 @@ Route::middleware('auth')->group(function () {
 
     Route::get('neraca-pangan', [NeracaController::class, 'index'])->name('neraca-pangan');
     Route::post('/neraca-pangan/cari', [NeracaController::class, 'search'])->name('komoditas.search');
-    Route::get('neraca-pangan/add', [NeracaController::class, 'create'])->name('neraca-pangan.create');
-    Route::post('/neraca-pangan/hitung', [NeracaController::class, 'hitung'])->name('neraca-pangan.hitung');
 
     // Komoditas
     Route::resource('komoditas', KomoditasController::class);

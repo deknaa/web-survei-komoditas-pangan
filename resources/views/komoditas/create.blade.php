@@ -114,6 +114,17 @@
                 </div>
             </div>
 
+            <div class="card shadow mb-4">
+                <div class="card-header font-weight-bold">Neraca Pangan</div>
+                <div class="card-body">
+                    <div class="form-group">
+                        <label for="neraca_pangan">Neraca Pangan (Ton) <br><span class="fs-6">(Ketersediaan Pangan -
+                                Kebutuhan Pangan)</span></label>
+                        <input type="text" id="neraca_pangan" name="neraca_pangan" class="form-control" required>
+                    </div>
+                </div>
+            </div>
+
             {{-- Tombol Simpan --}}
             <div class="text-end">
                 <button type="submit" class="btn btn-primary">Simpan Data</button>
@@ -121,4 +132,15 @@
 
         </form>
     </div>
+    {{-- Script hitung otomatis --}}
+    <script>
+        function hitungNeraca() {
+            let stok = parseFloat(document.getElementById('jumlah_komoditas').value) || 0;
+            let kebutuhan = parseFloat(document.getElementById('kebutuhan_rumah_tangga').value) || 0;
+            document.getElementById('neraca_pangan').value = stok - kebutuhan;
+        }
+
+        document.getElementById('jumlah_komoditas').addEventListener('input', hitungNeraca);
+        document.getElementById('kebutuhan_rumah_tangga').addEventListener('input', hitungNeraca);
+    </script>
 @endsection

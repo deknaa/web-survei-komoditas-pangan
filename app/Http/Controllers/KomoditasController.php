@@ -51,6 +51,7 @@ class KomoditasController extends Controller
             'tempat_survey' => 'required|string|max:255',
             'tgl_pelaksanaan' => 'required|date',
             'minggu_dilakukan_survey' => 'required|numeric',
+            'neraca_pangan' => 'required|numeric'
         ]);
 
         // Cek apakah data untuk komoditas dan minggu tersebut sudah ada
@@ -76,6 +77,7 @@ class KomoditasController extends Controller
             'tempat_survey' => $request->tempat_survey,
             'tgl_pelaksanaan' => $request->tgl_pelaksanaan,
             'minggu_dilakukan_survey' => $request->minggu_dilakukan_survey,
+            'neraca_pangan' => $request->neraca_pangan,
             'user_id' => Auth::id(), // menyimpan ID user petugas yang login
         ]);
 
