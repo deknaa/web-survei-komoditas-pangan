@@ -418,7 +418,7 @@
 
             if (!pasar || !tanggal || !komoditas) return;
 
-            fetch(`/petugas/api/harga-komoditas?pasar=${pasar}&tanggal=${tanggal}&komoditas=${komoditas}`)
+            fetch(`/api/harga-komoditas?pasar=${pasar}&tanggal=${tanggal}&komoditas=${komoditas}`)
                 .then(res => res.json())
                 .then(data => {
                     chart.data.labels = data.labels;
