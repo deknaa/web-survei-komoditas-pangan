@@ -143,7 +143,8 @@
                                     </td>
                                     <td>{{ ucwords($item->user->name ?? 'Tidak Diketahui') }}</td>
                                     <td class="d-flex">
-                                        {{-- <button type="button" class="btn btn-success mr-1" data-toggle="modal"
+                                        @if (auth()->user()->role === 'petugas')
+                                        <button type="button" class="btn btn-success mr-1" data-toggle="modal"
                                             data-target="#editKomoditasModal{{ $item->id }}">
                                             Edit
                                         </button>
@@ -153,7 +154,8 @@
                                             @method('DELETE')
                                             <button type="button" class="btn btn-danger btn-hapus"
                                                 data-id="{{ $item->id }}">Hapus</button>
-                                        </form> --}}
+                                        </form>
+                                        @endif
                                         @if (auth()->user()->role === 'eksekutif' && $item->status_verifikasi !== 'sudah_diverifikasi')
                                             <form action="{{ route('komoditas.verifikasi', $item->id) }}" method="POST"
                                                 class="mr-1">
