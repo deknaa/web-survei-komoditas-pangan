@@ -122,10 +122,10 @@
                                 <th width="50">No</th>
                                 <th>Komoditas</th>
                                 <th class="text-right">Harga</th>
-                                <th class="text-center">Jumlah</th>
-                                <th class="text-center">Kebutuhan RT</th>
+                                <th class="text-center">Jumlah (Ton)</th>
+                                <th class="text-center">Kebutuhan RT (Ton)</th>
                                 <th class="text-center">Pasar</th>
-                                <th class="text-center">Neraca Pangan</th>
+                                <th class="text-center">Neraca Pangan (Ton)</th>
                                 <th class="text-center">Tanggal</th>
                                 <th class="text-center">Minggu</th>
                             </tr>
@@ -273,16 +273,16 @@
                         Rp ${parseInt(item.harga_komoditas).toLocaleString('id-ID')}
                     </td>
                     <td class="text-center">
-                        <span class="badge badge-light">${item.jumlah_komoditas} Ton</span>
+                        <span class="badge badge-light">${item.jumlah_komoditas} </span>
                     </td>
                     <td class="text-center">
-                        <span class="badge badge-info">${item.kebutuhan_rumah_tangga} Ton</span>
+                        <span class="badge badge-info">${item.kebutuhan_rumah_tangga}</span>
                     </td>
                     <td class="text-center">
                         <span class="badge badge-secondary">${getPasarName(item.tempat_survey)}</span>
                     </td>
                     <td class="text-center ${neraca < 0 ? 'text-danger' : 'text-success'} font-weight-bold">
-                        ${neraca} Ton
+                        ${neraca}
                     </td>
                     <td class="text-center">
                         <small>${formatDate(item.tgl_pelaksanaan)}</small>

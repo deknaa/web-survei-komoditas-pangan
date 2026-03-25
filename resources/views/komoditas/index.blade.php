@@ -88,7 +88,7 @@
                                         <button type="button" class="btn btn-success" onclick="exportData('excel')">
                                             <i class="fas fa-file-excel"></i> Export Excel
                                         </button>
-                                        <button type="button" class="btn btn-danger" onclick="exportData('pdf')">
+                                        <button type="button" class="btn btn-dark" onclick="exportData('pdf')">
                                             <i class="fas fa-file-pdf"></i> Export PDF
                                         </button>
                                     </div>
@@ -113,8 +113,8 @@
                                 <th>No</th>
                                 <th>Nama Komoditas</th>
                                 <th>Harga Komoditas</th>
-                                <th>Ketersediaan</th>
-                                <th>Kebutuhan Rumah Tangga</th>
+                                <th>Ketersediaan (Ton)</th>
+                                <th>Kebutuhan Rumah Tangga (Ton)</th>
                                 <th>Tempat Survey</th>
                                 <th>Tanggal Pelaksanaan</th>
                                 <th>Minggu Survey Pelaksanaan</th>
@@ -129,8 +129,8 @@
                                     <td>{{ $loop->iteration }}</td>
                                     <td>{{ $item->nama_komoditas }}</td>
                                     <td>Rp. {{ number_format($item->harga_komoditas, 0, ',', '.') }}</td>
-                                    <td>{{ $item->jumlah_komoditas }} Ton</td>
-                                    <td>{{ $item->kebutuhan_rumah_tangga }} Ton</td>
+                                    <td>{{ $item->jumlah_komoditas }}</td>
+                                    <td>{{ $item->kebutuhan_rumah_tangga }}</td>
                                     <td>{{ ucwords(str_replace('_', ' ', $item->tempat_survey)) }}</td>
                                     <td>{{ date('d/m/Y', strtotime($item->tgl_pelaksanaan)) }}</td>
                                     <td>Minggu ke-{{ $item->minggu_dilakukan_survey }}</td>
@@ -143,7 +143,7 @@
                                     </td>
                                     <td>{{ ucwords($item->user->name ?? 'Tidak Diketahui') }}</td>
                                     <td class="d-flex">
-                                        <button type="button" class="btn btn-success mr-1" data-toggle="modal"
+                                        {{-- <button type="button" class="btn btn-success mr-1" data-toggle="modal"
                                             data-target="#editKomoditasModal{{ $item->id }}">
                                             Edit
                                         </button>
@@ -153,7 +153,7 @@
                                             @method('DELETE')
                                             <button type="button" class="btn btn-danger btn-hapus"
                                                 data-id="{{ $item->id }}">Hapus</button>
-                                        </form>
+                                        </form> --}}
                                         @if (auth()->user()->role === 'eksekutif' && $item->status_verifikasi !== 'sudah_diverifikasi')
                                             <form action="{{ route('komoditas.verifikasi', $item->id) }}" method="POST"
                                                 class="mr-1">
@@ -161,6 +161,8 @@
                                                 @method('PUT')
                                                 <button type="submit" class="btn btn-warning">Verifikasi</button>
                                             </form>
+                                        @else
+                                         <p>-</p>
                                         @endif
                                     </td>
                                 </tr>
