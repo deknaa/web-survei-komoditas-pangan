@@ -47,12 +47,12 @@
                             </div>
 
                             <!-- Remember Me -->
-                            <div class="form-check mb-3">
+                            {{-- <div class="form-check mb-3">
                                 <input id="remember_me" type="checkbox" class="form-check-input" name="remember">
                                 <label for="remember_me" class="form-check-label">
                                     {{ __('Remember me') }}
                                 </label>
-                            </div>
+                            </div> --}}
 
                             <!-- Actions -->
                             <div class="d-flex justify-content-between align-items-center">
@@ -65,6 +65,9 @@
                                 <button type="submit" class="btn btn-primary btn-md px-4 w-full">
                                     {{ __('Log in') }}
                                 </button>
+                                <a href="{{ route('register') }}" class="btn btn-primary btn-md px-4 w-full">
+                                    {{ __('Daftar Sebagai Petugas') }}
+                                </a>
                             </div>
                         </form>
                     </div>
